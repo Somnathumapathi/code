@@ -2,6 +2,8 @@ Music Player App
 
 Demo Video: demo.mp4
 
+ *This app was built for code-relay hackathon.
+ 
 Steps to run:
 1. Open the App
 2. Click on the play button of any of the songs
