@@ -1,6 +1,11 @@
-there we have to create a music player app
-i have downloaded all music from there google drive and stored in download and google folder
-https://drive.google.com/drive/folders/1-Vblr7nbVZh3sKNq6d04gNkSUMALtLRb?usp=sharing
+Music Player App
 
-write description also of song and add there 
-i added all the song files there in assets folder added all to pubspec also just fetch them 
+Demo Video: demo.mp4
+
+Steps to run:
+1. Open the App
+2. Click on the play button of any of the songs
+3. A player will open on the bottom
+4. You can move the slider which will change the position of song (but wont update te seeker position so please dont mind)
+5. pause and play can be done using the bottom player
+6. To test autoplay slide the slider to the end and it should start playing the next song in a bit
