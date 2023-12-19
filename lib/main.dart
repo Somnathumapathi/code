@@ -1,25 +1,10 @@
+import 'package:coderelay/models/dummy_data.dart';
+import 'package:coderelay/models/song_model.dart';
+import 'package:coderelay/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 void main() => runApp(MyApp());
-
-class Song {
-  final String title;
-  final String artist;
-  final String album;
-  final String year;
-  final String audioUrl;
-  final String imageUrl;
-
-  Song({
-    required this.title,
-    required this.artist,
-    required this.album,
-    required this.year,
-    required this.audioUrl,
-    required this.imageUrl,
-  });
-}
 
 class MyApp extends StatelessWidget {
   @override
@@ -27,9 +12,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Music Player',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MusicPlayerScreen(),
+          primarySwatch: Colors.blue, scaffoldBackgroundColor: Colors.black),
+      home: HomePage(),
     );
   }
 }
@@ -40,8 +24,8 @@ class MusicPlayerScreen extends StatefulWidget {
 }
 
 class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
-  AudioPlayer audioPlayer;
-  List<Song> songs;
+  late AudioPlayer audioPlayer;
+  late List<Song> songs;
   int currentIndex = 0;
   bool isPlaying = false;
 
@@ -49,95 +33,13 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
   void initState() {
     super.initState();
     audioPlayer = AudioPlayer();
-    songs = [
-      Song(
-        title: "Beat It",
-        artist: "Michael Jackson",
-        album: "Thriller",
-        year: "1983",
-        audioUrl: "assets/audio/beat_it.mp3",
-        imageUrl: "assets/images/beat_it.jpg",
-      ),
-      Song(
-        title: "Billie Jean",
-        artist: "Michael Jackson",
-        album: "Thriller",
-        year: "1982",
-        audioUrl: "assets/audio/billie_jean.mp3",
-        imageUrl: "assets/images/billie_jean.jpg",
-      ),
-      Song(
-        title: "Can't Help Falling in Love",
-        artist: "Elvis Presley",
-        album: "Blue Hawaii (Soundtrack)",
-        year: "1961",
-        audioUrl: "assets/audio/cant_help_falling_in_love.mp3",
-        imageUrl: "assets/images/cant_help_falling_in_love.jpg",
-      ),
-      Song(
-        title: "Jam",
-        artist: "Michael Jackson",
-        album: "Dangerous",
-        year: "1991",
-        audioUrl: "assets/audio/jam.mp3",
-        imageUrl: "assets/images/jam.jpg",
-      ),
-      Song(
-        title: "Numb",
-        artist: "Linkin Park",
-        album: "Meteora",
-        year: "2003",
-        audioUrl: "assets/audio/numb.mp3",
-        imageUrl: "assets/images/numb.jpg",
-      ),
-      Song(
-        title: "Sweet Child o' Mine",
-        artist: "Guns N' Roses",
-        album: "Appetite for Destruction",
-        year: "1987",
-        audioUrl: "assets/audio/sweet_child_o_mine.mp3",
-        imageUrl: "assets/images/sweet_child_o_mine.jpg",
-      ),
-      Song(
-        title: "Rumbling",
-        artist: "Sim",
-        album: "Play Dead",
-        year: "2022",
-        audioUrl: "assets/audio/rumbling.mp3",
-        imageUrl: "assets/images/rumbling.jpg",
-      ),
-      Song(
-        title: "Thriller",
-        artist: "Michael Jackson",
-        album: "Thriller",
-        year: "1982",
-        audioUrl: "assets/audio/thriller.mp3",
-        imageUrl: "assets/images/thriller.jpg",
-      ),
-      Song(
-        title: "Until I Found You",
-        artist: "Stephen Sanchez",
-        album: "Easy on My Eyes",
-        year: "2021",
-        audioUrl: "assets/audio/until_i_found_you.mp3",
-        imageUrl: "assets/images/until_i_found_you.jpg",
-      ),
-      Song(
-        title: "We Will Rock You",
-        artist: "Queen",
-        album: "News of the World",
-        year: "1977",
-        audioUrl: "assets/audio/we_will_rock_you.mp3",
-        imageUrl: "assets/images/we_will_rock_you.jpg",
-      ),
-      // Add other songs similarly
-    ];
+    songs = songlist;
 
-    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState state) {
-      setState(() {
-        isPlaying = state == AudioPlayerState.PLAYING;
-      });
-    });
+    // audioPlayer.onPlayerStateChanged.listen((AudioPlayerState state) {
+    //   setState(() {
+    //     isPlaying = state == AudioPlayerState.PLAYING;
+    //   });
+    // });
   }
 
   @override
@@ -192,7 +94,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                   if (isPlaying) {
                     audioPlayer.pause();
                   } else {
-                    audioPlayer.play(songs[currentIndex].audioUrl);
+                    audioPlayer.play(songs[currentIndex].audioUrl as Source);
                   }
                 },
               ),
