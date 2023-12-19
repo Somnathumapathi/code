@@ -1,125 +1,218 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() => runApp(MyApp());
+
+class Song {
+  final String title;
+  final String artist;
+  final String album;
+  final String year;
+  final String audioUrl;
+  final String imageUrl;
+
+  Song({
+    required this.title,
+    required this.artist,
+    required this.album,
+    required this.year,
+    required this.audioUrl,
+    required this.imageUrl,
+  });
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Music Player',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MusicPlayerScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class MusicPlayerScreen extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MusicPlayerScreenState createState() => _MusicPlayerScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
+  AudioPlayer audioPlayer;
+  List<Song> songs;
+  int currentIndex = 0;
+  bool isPlaying = false;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer = AudioPlayer();
+    songs = [
+      Song(
+        title: "Beat It",
+        artist: "Michael Jackson",
+        album: "Thriller",
+        year: "1983",
+        audioUrl: "assets/audio/beat_it.mp3",
+        imageUrl: "assets/images/beat_it.jpg",
+      ),
+      Song(
+        title: "Billie Jean",
+        artist: "Michael Jackson",
+        album: "Thriller",
+        year: "1982",
+        audioUrl: "assets/audio/billie_jean.mp3",
+        imageUrl: "assets/images/billie_jean.jpg",
+      ),
+      Song(
+        title: "Can't Help Falling in Love",
+        artist: "Elvis Presley",
+        album: "Blue Hawaii (Soundtrack)",
+        year: "1961",
+        audioUrl: "assets/audio/cant_help_falling_in_love.mp3",
+        imageUrl: "assets/images/cant_help_falling_in_love.jpg",
+      ),
+      Song(
+        title: "Jam",
+        artist: "Michael Jackson",
+        album: "Dangerous",
+        year: "1991",
+        audioUrl: "assets/audio/jam.mp3",
+        imageUrl: "assets/images/jam.jpg",
+      ),
+      Song(
+        title: "Numb",
+        artist: "Linkin Park",
+        album: "Meteora",
+        year: "2003",
+        audioUrl: "assets/audio/numb.mp3",
+        imageUrl: "assets/images/numb.jpg",
+      ),
+      Song(
+        title: "Sweet Child o' Mine",
+        artist: "Guns N' Roses",
+        album: "Appetite for Destruction",
+        year: "1987",
+        audioUrl: "assets/audio/sweet_child_o_mine.mp3",
+        imageUrl: "assets/images/sweet_child_o_mine.jpg",
+      ),
+      Song(
+        title: "Rumbling",
+        artist: "Sim",
+        album: "Play Dead",
+        year: "2022",
+        audioUrl: "assets/audio/rumbling.mp3",
+        imageUrl: "assets/images/rumbling.jpg",
+      ),
+      Song(
+        title: "Thriller",
+        artist: "Michael Jackson",
+        album: "Thriller",
+        year: "1982",
+        audioUrl: "assets/audio/thriller.mp3",
+        imageUrl: "assets/images/thriller.jpg",
+      ),
+      Song(
+        title: "Until I Found You",
+        artist: "Stephen Sanchez",
+        album: "Easy on My Eyes",
+        year: "2021",
+        audioUrl: "assets/audio/until_i_found_you.mp3",
+        imageUrl: "assets/images/until_i_found_you.jpg",
+      ),
+      Song(
+        title: "We Will Rock You",
+        artist: "Queen",
+        album: "News of the World",
+        year: "1977",
+        audioUrl: "assets/audio/we_will_rock_you.mp3",
+        imageUrl: "assets/images/we_will_rock_you.jpg",
+      ),
+      // Add other songs similarly
+    ];
+
+    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState state) {
+      setState(() {
+        isPlaying = state == AudioPlayerState.PLAYING;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('Music Player'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 120,
+            backgroundImage: AssetImage(songs[currentIndex].imageUrl),
+          ),
+          SizedBox(height: 20),
+          Text(
+            '${songs[currentIndex].title} - ${songs[currentIndex].artist}',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Album: ${songs[currentIndex].album} (${songs[currentIndex].year})',
+            style: TextStyle(fontSize: 18),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Slider(
+              onChanged: (double value) {
+                // Implement seeking functionality
+              },
+              value: 0.0, // You should set the current position here
+              max: 1.0, // Set the duration of the audio file here
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.skip_previous),
+                iconSize: 36,
+                onPressed: () {
+                  // Implement previous track functionality
+                },
+              ),
+              IconButton(
+                icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                iconSize: 64,
+                onPressed: () {
+                  if (isPlaying) {
+                    audioPlayer.pause();
+                  } else {
+                    audioPlayer.play(songs[currentIndex].audioUrl);
+                  }
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.skip_next),
+                iconSize: 36,
+                onPressed: () {
+                  // Implement next track functionality
+                },
+              ),
+            ],
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
   }
 }

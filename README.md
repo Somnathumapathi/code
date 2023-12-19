@@ -1,16 +1,6 @@
-# coderelay
+there we have to create a music player app
+i have downloaded all music from there google drive and stored in download and google folder
+https://drive.google.com/drive/folders/1-Vblr7nbVZh3sKNq6d04gNkSUMALtLRb?usp=sharing
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+write description also of song and add there 
+i added all the song files there in assets folder added all to pubspec also just fetch them 
