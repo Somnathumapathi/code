@@ -19,6 +19,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MusicPlayerScreen extends StatefulWidget {
+  final List<Song> musicList = [];
+
   @override
   _MusicPlayerScreenState createState() => _MusicPlayerScreenState();
 }
